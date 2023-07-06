@@ -1,3 +1,4 @@
+import os.path
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -5,11 +6,16 @@ import time
 import tkinter as tk
 import pandas as pd
 import datetime as dt
+from sys import platform as sys_pf
+if sys_pf == 'darwin':
+    import matplotlib
+    matplotlib.use("TkAgg")
 
 
 def my_function(t):
     # Define your function here
-    return np.sin(2 * np.pi * t)  # Example: Sine wave
+    #return np.sin(2 * np.pi * t)  # Example: Sine wave
+    return np.exp(t)
 
 
 def run():
@@ -65,8 +71,18 @@ def my_exit():
 
 
 # Read in data file
-data_file = pd.read_csv("glue_data.csv")
-df = pd.DataFrame(data_file)
+if os.path.isfile("glue_data.csv"):
+    data_file = pd.read_csv("glue_data.csv")
+    df = pd.DataFrame(data_file)
+else:
+    data = {
+        "Run": [0],
+        "Start Time": [0],
+        "End Time": [0],
+        "Viscosity": [0],
+    }
+    df = pd.DataFrame(data)
+
 
 # Create a time array from 0 to 10 seconds with a step of 0.01
 t = np.arange(0, 20, 0.01)
