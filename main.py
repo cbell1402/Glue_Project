@@ -27,7 +27,7 @@ def run():
             # Update the marker's position
             m.set_xdata(m.get_xdata() + 0.01)
             m.set_ydata(my_function(m.get_xdata()))
-            m.viscosity = np.float_(m.get_ydata())
+            m.pressure = np.float_(m.get_ydata())
 
         # Update the plot
         fig.canvas.draw()
@@ -47,7 +47,7 @@ def add_marker():
     setattr(marker, 'start_time', dt.datetime.now())
     setattr(marker, 'run', df['Run'].max() + 1)
     setattr(marker, 'end_time', 0)
-    setattr(marker, 'viscosity', 0)
+    setattr(marker, 'pressure', 0)
     df.loc[marker.run, "Run"] = marker.run
     df.loc[marker.run, "Start Time"] = marker.start_time
     markers.append(marker)
@@ -61,7 +61,7 @@ def save_data():
         df.loc[m.run, "Run"] = m.run
         df.loc[m.run, "Start Time"] = m.start_time
         df.loc[m.run, "End Time"] = m.end_time
-        df.loc[m.run, "Viscosity"] = m.viscosity
+        df.loc[m.run, "Pressure"] = m.pressure
     df.to_csv("glue_data.csv", index=False)
     print("I have saved!")
     #window.after(5000, save_data())
@@ -82,7 +82,7 @@ else:
         "Run": [0],
         "Start Time": [0],
         "End Time": [0],
-        "Viscosity": [0],
+        "Pressure": [0],
     }
     df = pd.DataFrame(data)
 
@@ -115,8 +115,8 @@ exit_button.pack()
 
 # Set the axis labels and title
 ax.set_xlabel('Time (s)')
-ax.set_ylabel('Function')
-ax.set_title('Plotting a Function with Moving Marker')
+ax.set_ylabel('Pressure (PSI)')
+ax.set_title('Glue - Pressure vs Time')
 
 # Show the initial plot
 plt.show(block=False)
