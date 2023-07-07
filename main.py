@@ -26,9 +26,18 @@ def run():
             delta = right_now - m.start_time
 
             # Update the marker's position
-            m.set_xdata(delta.total_seconds() / 60)
-            m.set_ydata(my_function(delta.total_seconds()))
-            m.pressure = np.float_(m.get_ydata())
+            x_pos = delta.total_seconds() / 60
+            y_pos = my_function(delta.total_seconds() / 60)
+            m.set_xdata(x_pos)
+            m.set_ydata(y_pos)
+            # m.pressure = np.float_(m.get_ydata())
+            m.pressure = y_pos
+
+            # Annotate marker with pressure
+            text = "PSI: " + str(round(m.pressure, 3))
+            m.anno.set_text(text)
+            #m.anno.set_x(x_pos)
+            #m.anno.set_y(y_pos)
 
         # Update the plot
         fig.canvas.draw()
@@ -41,6 +50,7 @@ def run():
 def add_marker(event):
     # Plot a marker
     marker, = ax.plot(0, my_function(0), 'o')
+    setattr(marker, 'anno', ax.annotate('', (120, 14), xycoords='data'))
     setattr(marker, 'start_time', dt.datetime.now())
     setattr(marker, 'update_time', dt.datetime.now())
     setattr(marker, 'run', df['Run'].max() + 1)
@@ -128,6 +138,8 @@ ax.set_title('Glue - Pressure vs Time')
 plt.show(block=False)
 
 # Test block
+#temp_anno = ax.annotate('', (120, 14))
+
 #print(df)
 
 running = True
