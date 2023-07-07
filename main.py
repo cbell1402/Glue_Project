@@ -3,10 +3,11 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-import tkinter as tk
+#import tkinter as tk
 import pandas as pd
 import datetime as dt
 from sys import platform as sys_pf
+from matplotlib.widgets import Button
 if sys_pf == 'darwin':
     import matplotlib
     matplotlib.use("TkAgg")
@@ -26,7 +27,7 @@ def run():
 
             # Update the marker's position
             m.set_xdata(delta.total_seconds() / 60)
-            m.set_ydata(my_function(delta.total_seconds() / 60))
+            m.set_ydata(my_function(delta.total_seconds()))
             m.pressure = np.float_(m.get_ydata())
 
         # Update the plot
@@ -37,7 +38,7 @@ def run():
         # time.sleep(1)
 
 
-def add_marker():
+def add_marker(event):
     # Plot a marker
     marker, = ax.plot(0, my_function(0), 'o')
     setattr(marker, 'start_time', dt.datetime.now())
@@ -63,9 +64,9 @@ def save_data():
     print("I have saved!")
 
 
-def my_exit():
+def my_exit(event):
     save_data()
-    window.destroy()
+    #window.destroy()
     plt.close()
 
 
@@ -96,15 +97,21 @@ fig, ax = plt.subplots()
 line, = ax.plot(t, my_function(t))
 
 # Create the tkinter window
-window = tk.Tk()
+#window = tk.Tk()
 
 # Create a button to add markers
-add_button = tk.Button(window, text="Add Marker", command=add_marker)
-add_button.pack()
+# add_button = tk.Button(window, text="Add Marker", command=add_marker)
+# add_button.pack()
+axadd = fig.add_axes([0.5, 0.15, 0.15, 0.075])
+add_button = Button(axadd, "Add Marker")
+add_button.on_clicked(add_marker)
 
 # Create a button to close and save
-exit_button = tk.Button(window, text="Save and Exit", command=my_exit)
-exit_button.pack()
+# exit_button = tk.Button(window, text="Save and Exit", command=my_exit)
+# exit_button.pack()
+axexit = fig.add_axes([0.66, 0.15, 0.15, 0.075])
+exit_button = Button(axexit, "Save & Exit")
+exit_button.on_clicked(my_exit)
 
 # Start the tkinter event loop
 # window.mainloop()
@@ -115,9 +122,9 @@ ax.set_ylabel('Pressure (PSI)')
 ax.set_title('Glue - Pressure vs Time')
 
 # Show the initial plot
-plt.yticks(np.arange(10, 30, 1))
-plt.xticks(np.arange(0, 241, 20))
-plt.grid()
+#plt.yticks(np.arange(10, 30, 1))
+#plt.xticks(np.arange(0, 241, 20))
+#plt.grid()
 plt.show(block=False)
 
 # Test block
