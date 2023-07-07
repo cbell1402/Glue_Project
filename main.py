@@ -60,6 +60,29 @@ def add_marker(event):
     markers.append(marker)
 
 
+def check_markers():
+    # Check for previous markers with time < 4 hours
+    right_now = dt.datetime.now()
+    time_list = df['Start Time'].to_list()
+    for m in time_list[1:]:
+        m_dt = dt.datetime.strptime(m, "%Y-%m-%d %H:%M:%S.%f")
+        delta = right_now - m_dt
+        run = df.loc[df['Start Time'] == m].iat[0,0]
+
+        # Add those markers if < 4 hours
+        if delta.total_seconds() < (4 * 60 * 60):
+            marker, = ax.plot(delta.total_seconds() / 60, my_function(delta.total_seconds() / 60), 'o')
+            setattr(marker, 'anno', ax.annotate('', (121, 14.1), xycoords='data'))
+            setattr(marker, 'start_time', m_dt)
+            setattr(marker, 'update_time', dt.datetime.now())
+            setattr(marker, 'run', run)
+            setattr(marker, 'end_time', dt.datetime.now())
+            setattr(marker, 'pressure', my_function(delta.total_seconds() / 60))
+            df.loc[marker.run, "Run"] = marker.run
+            df.loc[marker.run, "Start Time"] = marker.start_time
+            markers.append(marker)
+
+
 def save_data():
     # Get the end time value
     end_time = dt.datetime.now()
@@ -134,6 +157,8 @@ plt.show(block=False)
 #print(df)
 
 running = True
+
+check_markers()
 
 while running:
     running = run()
