@@ -61,7 +61,6 @@ def save_data():
         df.loc[m.run, "Pressure"] = m.pressure
     df.to_csv("glue_data.csv", index=False)
     print("I have saved!")
-    #window.after(5000, save_data())
 
 
 def my_exit():
@@ -116,6 +115,9 @@ ax.set_ylabel('Pressure (PSI)')
 ax.set_title('Glue - Pressure vs Time')
 
 # Show the initial plot
+plt.yticks(np.arange(10, 30, 1))
+plt.xticks(np.arange(0, 241, 20))
+plt.grid()
 plt.show(block=False)
 
 # Test block
@@ -123,14 +125,9 @@ plt.show(block=False)
 
 running = True
 
-# Start the tkinter event loop
-#window.mainloop()
-
-#window.after(5000, save_data())
-
 while running:
     running = run()
 
 # Close the plot window
-plt.close()
+my_exit()
 
