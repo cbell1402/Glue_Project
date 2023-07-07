@@ -14,13 +14,16 @@ if sys_pf == 'darwin':
 
 def my_function(t):
     # Define your function here
-    #return np.sin(2 * np.pi * t)  # Example: Sine wave
-    return np.exp(t)
+    # return np.sin(2 * np.pi * t)  # Example: Sine wave
+    # return np.exp(t)
+    return (11 + 0.0745 * t)
 
 
 def run():
     while True:
         for m in markers:
+            # Get time delta from creation till now
+
             # Update the marker's position
             m.set_xdata(m.get_xdata() + 0.01)
             m.set_ydata(my_function(m.get_xdata()))
