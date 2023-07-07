@@ -50,7 +50,7 @@ def run():
 def add_marker(event):
     # Plot a marker
     marker, = ax.plot(0, my_function(0), 'o')
-    setattr(marker, 'anno', ax.annotate('', (120, 14), xycoords='data'))
+    setattr(marker, 'anno', ax.annotate('', (121, 14.1), xycoords='data'))
     setattr(marker, 'start_time', dt.datetime.now())
     setattr(marker, 'update_time', dt.datetime.now())
     setattr(marker, 'run', df['Run'].max() + 1)
@@ -106,35 +106,27 @@ fig, ax = plt.subplots()
 # Plot the function
 line, = ax.plot(t, my_function(t))
 
-# Create the tkinter window
-#window = tk.Tk()
-
-# Create a button to add markers
-# add_button = tk.Button(window, text="Add Marker", command=add_marker)
-# add_button.pack()
-axadd = fig.add_axes([0.5, 0.15, 0.15, 0.075])
-add_button = Button(axadd, "Add Marker")
-add_button.on_clicked(add_marker)
-
-# Create a button to close and save
-# exit_button = tk.Button(window, text="Save and Exit", command=my_exit)
-# exit_button.pack()
-axexit = fig.add_axes([0.66, 0.15, 0.15, 0.075])
-exit_button = Button(axexit, "Save & Exit")
-exit_button.on_clicked(my_exit)
-
-# Start the tkinter event loop
-# window.mainloop()
-
 # Set the axis labels and title
 ax.set_xlabel('Time (min)')
 ax.set_ylabel('Pressure (PSI)')
 ax.set_title('Glue - Pressure vs Time')
 
-# Show the initial plot
-#plt.yticks(np.arange(10, 30, 1))
-#plt.xticks(np.arange(0, 241, 20))
-#plt.grid()
+# Set up the initial plot
+plt.yticks(np.arange(10, 30, 1))
+plt.xticks(np.arange(0, 241, 20))
+plt.grid()
+
+# Create a button to add markers
+axadd = fig.add_axes([0.5, 0.15, 0.15, 0.075])
+add_button = Button(axadd, "Add Marker")
+add_button.on_clicked(add_marker)
+
+# Create a button to close and save
+axexit = fig.add_axes([0.66, 0.15, 0.15, 0.075])
+exit_button = Button(axexit, "Save & Exit")
+exit_button.on_clicked(my_exit)
+
+# Show the plot
 plt.show(block=False)
 
 # Test block
