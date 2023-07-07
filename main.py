@@ -3,7 +3,6 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-#import tkinter as tk
 import pandas as pd
 import datetime as dt
 from sys import platform as sys_pf
@@ -43,8 +42,8 @@ def run():
         fig.canvas.draw()
         fig.canvas.flush_events()
 
-        # Pause for one second
-        # time.sleep(1)
+        # Save the data
+        save_data()
 
 
 def add_marker(event):
@@ -71,7 +70,7 @@ def save_data():
         df.loc[m.run, "End Time"] = m.end_time
         df.loc[m.run, "Pressure"] = m.pressure
     df.to_csv("glue_data.csv", index=False)
-    print("I have saved!")
+    # print("I have saved!")
 
 
 def my_exit(event):
