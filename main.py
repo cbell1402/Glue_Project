@@ -14,19 +14,19 @@ if sys_pf == 'darwin':
 
 def my_function(t):
     # Define your function here
-    # return np.sin(2 * np.pi * t)  # Example: Sine wave
-    # return np.exp(t)
-    return (11 + 0.0745 * t)
+    return 11.0 + 0.0745 * t
 
 
 def run():
     while True:
         for m in markers:
             # Get time delta from creation till now
+            right_now = dt.datetime.now()
+            delta = right_now - m.start_time
 
             # Update the marker's position
-            m.set_xdata(m.get_xdata() + 0.01)
-            m.set_ydata(my_function(m.get_xdata()))
+            m.set_xdata(delta.total_seconds() / 60)
+            m.set_ydata(my_function(delta.total_seconds() / 60))
             m.pressure = np.float_(m.get_ydata())
 
         # Update the plot
@@ -36,15 +36,12 @@ def run():
         # Pause for one second
         # time.sleep(1)
 
-        #if my_exit() is False:
-            #break
-    #return False
-
 
 def add_marker():
     # Plot a marker
     marker, = ax.plot(0, my_function(0), 'o')
     setattr(marker, 'start_time', dt.datetime.now())
+    setattr(marker, 'update_time', dt.datetime.now())
     setattr(marker, 'run', df['Run'].max() + 1)
     setattr(marker, 'end_time', 0)
     setattr(marker, 'pressure', 0)
@@ -87,8 +84,8 @@ else:
     df = pd.DataFrame(data)
 
 
-# Create a time array from 0 to 10 seconds with a step of 0.01
-t = np.arange(0, 20, 0.01)
+# Create a time array from 0 to 240 minutes with a step of 0.01
+t = np.arange(0, 240, 1)
 
 # Create an empty list to store the markers
 markers = []
@@ -114,7 +111,7 @@ exit_button.pack()
 # window.mainloop()
 
 # Set the axis labels and title
-ax.set_xlabel('Time (s)')
+ax.set_xlabel('Time (min)')
 ax.set_ylabel('Pressure (PSI)')
 ax.set_title('Glue - Pressure vs Time')
 
