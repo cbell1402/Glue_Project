@@ -28,7 +28,7 @@ def run():
             # Check if greater than four hours
             if delta.total_seconds() > (4 * 60 * 60):
                 axend = fig.add_axes([0.25, 0.5, 0.5, 0.075])
-                end_button = Button(axend, "FOUR HOURS - MIX NEW BATCH")
+                end_button = Button(axend, "FOUR HOURS - MIX NEW BATCH \n Press To Continue")
                 end_button.on_clicked(end_press)
                 plt.waitforbuttonpress()
 
