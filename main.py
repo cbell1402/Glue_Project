@@ -1,5 +1,6 @@
 import os.path
 import sys
+import time
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -18,6 +19,7 @@ def my_function(t):
 
 def run():
     while True:
+        time.sleep(0.1)
         for m in markers:
             # Get time delta from creation till now
             right_now = dt.datetime.now()
@@ -34,8 +36,8 @@ def run():
             # Annotate marker with pressure
             text = "PSI: " + str(round(m.pressure, 3))
             m.anno.set_text(text)
-            # m.anno.set_x(x_pos)
-            # m.anno.set_y(y_pos)
+            color = m.get_color()
+            m.anno.set_color(color)
 
         # Update the plot
         fig.canvas.draw()
@@ -48,7 +50,7 @@ def run():
 def add_marker(event):
     # Plot a marker
     marker, = ax.plot(0, my_function(0), 'o')
-    setattr(marker, 'anno', ax.annotate('', (121, 14.1), xycoords='data'))
+    setattr(marker, 'anno', ax.annotate('', (200, 24.1 - len(markers)), xycoords='data'))
     setattr(marker, 'start_time', dt.datetime.now())
     setattr(marker, 'update_time', dt.datetime.now())
     setattr(marker, 'run', df['Run'].max() + 1)
@@ -71,7 +73,7 @@ def check_markers():
         # Add those markers if < 4 hours
         if delta.total_seconds() < (4 * 60 * 60):
             marker, = ax.plot(delta.total_seconds() / 60, my_function(delta.total_seconds() / 60), 'o')
-            setattr(marker, 'anno', ax.annotate('', (121, 14.1), xycoords='data'))
+            setattr(marker, 'anno', ax.annotate('', (200, 24.1 - len(markers)), xycoords='data'))
             setattr(marker, 'start_time', m_dt)
             setattr(marker, 'update_time', dt.datetime.now())
             setattr(marker, 'run', run)
