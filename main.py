@@ -96,7 +96,13 @@ def save_data():
     # print("I have saved!")
 
 
-def my_exit(event):
+def remove_data(event):
+    df.drop(df.index[1:], inplace=True)
+    df.to_csv("glue_data.csv", index=False)
+    os.execv(sys.executable, ['python'] + sys.argv)
+
+
+def my_exit():
     save_data()
     #window.destroy()
     plt.close()
@@ -145,15 +151,14 @@ add_button.on_clicked(add_marker)
 
 # Create a button to close and save
 axexit = fig.add_axes([0.66, 0.15, 0.15, 0.075])
-exit_button = Button(axexit, "Save & Exit")
-exit_button.on_clicked(my_exit)
+exit_button = Button(axexit, "Clear Data")
+exit_button.on_clicked(remove_data)
 
 # Show the plot
 plt.show(block=False)
 
 # Test block
 #temp_anno = ax.annotate('', (120, 14))
-
 #print(df)
 
 running = True
