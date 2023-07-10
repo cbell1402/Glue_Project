@@ -25,6 +25,14 @@ def run():
             right_now = dt.datetime.now()
             delta = right_now - m.start_time
 
+            # Check if greater than four hours
+            if delta.total_seconds() > (4 * 60 * 60):
+                axend = fig.add_axes([0.25, 0.5, 0.5, 0.075])
+                end_button = Button(axend, "FOUR HOURS - MIX NEW BATCH")
+                end_button.on_clicked(end_press)
+                plt.waitforbuttonpress()
+
+
             # Update the marker's position
             x_pos = delta.total_seconds() / 60
             y_pos = my_function(delta.total_seconds() / 60)
@@ -101,6 +109,10 @@ def remove_data(event):
     #df.drop(df.index[1:], inplace=True)
     #df.to_csv("glue_data.csv", index=False)
     os.remove("glue_data.csv")
+    os.execv(sys.executable, ['python'] + sys.argv)
+
+
+def end_press(event):
     os.execv(sys.executable, ['python'] + sys.argv)
 
 
