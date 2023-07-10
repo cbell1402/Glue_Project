@@ -98,8 +98,9 @@ def save_data():
 
 
 def remove_data(event):
-    df.drop(df.index[1:], inplace=True)
-    df.to_csv("glue_data.csv", index=False)
+    #df.drop(df.index[1:], inplace=True)
+    #df.to_csv("glue_data.csv", index=False)
+    os.remove("glue_data.csv")
     os.execv(sys.executable, ['python'] + sys.argv)
 
 
