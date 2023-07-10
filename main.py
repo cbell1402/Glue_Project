@@ -2,7 +2,6 @@ import os.path
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
-import time
 import pandas as pd
 import datetime as dt
 from sys import platform as sys_pf
@@ -35,8 +34,8 @@ def run():
             # Annotate marker with pressure
             text = "PSI: " + str(round(m.pressure, 3))
             m.anno.set_text(text)
-            #m.anno.set_x(x_pos)
-            #m.anno.set_y(y_pos)
+            # m.anno.set_x(x_pos)
+            # m.anno.set_y(y_pos)
 
         # Update the plot
         fig.canvas.draw()
@@ -67,7 +66,7 @@ def check_markers():
     for m in time_list[1:]:
         m_dt = dt.datetime.strptime(m, "%Y-%m-%d %H:%M:%S.%f")
         delta = right_now - m_dt
-        run = df.loc[df['Start Time'] == m].iat[0,0]
+        run = df.loc[df['Start Time'] == m].iat[0, 0]
 
         # Add those markers if < 4 hours
         if delta.total_seconds() < (4 * 60 * 60):
@@ -104,7 +103,6 @@ def remove_data(event):
 
 def my_exit():
     save_data()
-    #window.destroy()
     plt.close()
 
 
@@ -158,8 +156,8 @@ exit_button.on_clicked(remove_data)
 plt.show(block=False)
 
 # Test block
-#temp_anno = ax.annotate('', (120, 14))
-#print(df)
+# temp_anno = ax.annotate('', (120, 14))
+# print(df)
 
 running = True
 
@@ -170,4 +168,3 @@ while running:
 
 # Close the plot window
 my_exit()
-
