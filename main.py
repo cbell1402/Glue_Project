@@ -1,6 +1,3 @@
-#import matplotlib
-import tkinter
-#matplotlib.use("TkAgg")
 import os.path
 import sys
 import time
@@ -37,7 +34,6 @@ def run():
                 status.set_text("Status: Stopped...")
                 plt.waitforbuttonpress()
 
-
             # Update the marker's position
             x_pos = delta.total_seconds() / 60
             y_pos = my_function(delta.total_seconds() / 60)
@@ -70,8 +66,6 @@ def add_marker(event):
     df.loc[marker.run, "Run"] = marker.run
     df.loc[marker.run, "Start Time"] = marker.start_time
     markers.append(marker)
-    print(markers)
-    print(len(markers))
     status.set_x(0.115)
     status.set_text("Status: Running")
     add_button.active = False
@@ -155,7 +149,7 @@ t = np.arange(0, 240, 1)
 markers = []
 
 # Create a figure and axis objects
-fig, ax = plt.subplots(figsize=(9,5), facecolor="cornflowerblue")
+fig, ax = plt.subplots(figsize=(9, 5), facecolor="cornflowerblue")
 fig.subplots_adjust(left=0.5, bottom=0.2)
 
 # Plot the function
