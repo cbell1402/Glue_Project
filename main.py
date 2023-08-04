@@ -43,19 +43,13 @@ def run():
             y_pos = my_function(delta.total_seconds() / 60)
             m.set_xdata(x_pos)
             m.set_ydata(y_pos)
-            # m.pressure = np.float_(m.get_ydata())
             m.pressure = y_pos
 
             # Annotate marker with pressure
             if round(m.pressure, 2) % 0.5 == 0:
-                #print(round(m.pressure, 1))
-                #print("again")
                 text = str(round(m.pressure, 2)) + " PSI"
-                #m.anno.set_text(text)
                 text_box.set_val(text)
                 text_box.stop_typing()
-                #color = m.get_color()
-                #m.anno.set_color(color)
 
         # Update the plot
         fig.canvas.draw()
@@ -68,7 +62,6 @@ def run():
 def add_marker(event):
     # Plot a marker
     marker, = ax.plot(0, my_function(0), 'o')
-    #setattr(marker, 'anno', ax.annotate('', (200, 24.1 - len(markers)), xycoords='data'))
     setattr(marker, 'start_time', dt.datetime.now())
     setattr(marker, 'update_time', dt.datetime.now())
     setattr(marker, 'run', df['Run'].max() + 1)
@@ -79,9 +72,9 @@ def add_marker(event):
     markers.append(marker)
     print(markers)
     print(len(markers))
-    #status.set_x(0.115)
-    #status.set_text("Status: Running")
-    #add_button.active = False
+    status.set_x(0.115)
+    status.set_text("Status: Running")
+    add_button.active = False
 
 
 def check_markers():
@@ -108,9 +101,10 @@ def check_markers():
             # Change Status
             status.set_x(0.115)
             status.set_text("Status: Running")
-            #add_button.active = False
+            add_button.active = False
             # Update pressure
-            text = str(round(marker.pressure)) + " PSI"
+            psi_value = round(marker.pressure * 2) / 2
+            text = str(psi_value) + " PSI"
             text_box.set_val(text)
             text_box.stop_typing()
 
@@ -138,7 +132,7 @@ def end_press(event):
 
 def my_exit():
     save_data()
-    #plt.close()
+    plt.close()
 
 
 # Read in data file
@@ -198,10 +192,6 @@ title = plt.text(0.092, 0.8, "Glue Tracker", fontsize=24, transform=plt.gcf().tr
 
 # Show the plot
 plt.show(block=False)
-
-# Test block
-# temp_anno = ax.annotate('', (120, 14))
-# print(df)
 
 running = True
 
